@@ -161,6 +161,7 @@ void run()
 DECLARE_UNITTEST_END(LowDegWarpSync);
 
 LowDegWarpSync<TemplateMode<AMGX_mode_dDDI>::Type> LowDegWarpSync_dDDI;
+LowDegWarpSync<TemplateMode<AMGX_mode_dDFI>::Type> LowDegWarpSync_dDFI;
 LowDegWarpSync<TemplateMode<AMGX_mode_dFFI>::Type> LowDegWarpSync_dFFI;
 
 } // namespace amgx

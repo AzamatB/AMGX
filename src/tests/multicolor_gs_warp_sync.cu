@@ -183,8 +183,15 @@ void check_case(int b, int n, bool couplings, bool separate_diagonal)
 
 void run()
 {
+    // In mixed precision only the 4x4 path runs: AMGX smooths the other block sizes with
+    // cusparse<t>bsrxmv, which it does not call in mixed precision.
+    const bool mixed = sizeof(ValueTypeA) != sizeof(ValueTypeB);
+
     // 2x2 to 5x5 setup kernels hold 8, 3, 2 and 1 block rows per warp; 4x4 also smooths in place.
     for (int b = 2; b <= 5; ++b)
+    {
+        if (mixed && b != 4) { continue; }
+
         for (int n : {1, 11, 97})
         {
             // Without couplings the inverse is checked bit for bit; with them, the sweep.
@@ -192,11 +199,13 @@ void run()
             check_case(b, n, true, false);
             check_case(b, n, true, true);
         }
+    }
 }
 
 DECLARE_UNITTEST_END(MulticolorGSWarpSync);
 
 MulticolorGSWarpSync<TemplateMode<AMGX_mode_dDDI>::Type> MulticolorGSWarpSync_dDDI;
+MulticolorGSWarpSync<TemplateMode<AMGX_mode_dDFI>::Type> MulticolorGSWarpSync_dDFI;
 MulticolorGSWarpSync<TemplateMode<AMGX_mode_dFFI>::Type> MulticolorGSWarpSync_dFFI;
 
 } // namespace amgx
