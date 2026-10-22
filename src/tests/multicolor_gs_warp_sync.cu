@@ -204,8 +204,8 @@ void run()
 
 DECLARE_UNITTEST_END(MulticolorGSWarpSync);
 
-MulticolorGSWarpSync<TemplateMode<AMGX_mode_dDDI>::Type> MulticolorGSWarpSync_dDDI;
-MulticolorGSWarpSync<TemplateMode<AMGX_mode_dDFI>::Type> MulticolorGSWarpSync_dDFI;
-MulticolorGSWarpSync<TemplateMode<AMGX_mode_dFFI>::Type> MulticolorGSWarpSync_dFFI;
+#define AMGX_CASE_LINE(CASE) MulticolorGSWarpSync<TemplateMode<CASE>::Type> MulticolorGSWarpSync_##CASE;
+AMGX_FORALL_BUILDS_DEVICE(AMGX_CASE_LINE)
+#undef AMGX_CASE_LINE
 
 } // namespace amgx

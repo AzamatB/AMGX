@@ -160,8 +160,8 @@ void run()
 
 DECLARE_UNITTEST_END(LowDegWarpSync);
 
-LowDegWarpSync<TemplateMode<AMGX_mode_dDDI>::Type> LowDegWarpSync_dDDI;
-LowDegWarpSync<TemplateMode<AMGX_mode_dDFI>::Type> LowDegWarpSync_dDFI;
-LowDegWarpSync<TemplateMode<AMGX_mode_dFFI>::Type> LowDegWarpSync_dFFI;
+#define AMGX_CASE_LINE(CASE) LowDegWarpSync<TemplateMode<CASE>::Type> LowDegWarpSync_##CASE;
+AMGX_FORALL_BUILDS_DEVICE(AMGX_CASE_LINE)
+#undef AMGX_CASE_LINE
 
 } // namespace amgx
